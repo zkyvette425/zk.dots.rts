@@ -1,0 +1,23 @@
+{
+  "name": "zk.dots.rts",
+  "displayName": "DOTS.RTS",
+  "version": "0.1.0",
+  "unity": "2022.3",
+  "description": "使用Unity DOTS 来实现的RTS游戏模板包",
+  "keywords": [
+    "DOTS",
+    "RTS",
+    "ZK"
+  ],
+  "type": "Game Template",
+ "dependencies": {
+    "com.unity.entities": "1.3.14",
+    "com.unity.entities.graphics": "1.4.12", 
+    "com.unity.physics": "1.3.14"
+  },
+  "repository": {
+    "url": "https://github.com/zkyvette425/zk.dots.rts.git",
+    "type": "git",
+    "revision": "12a27129a99402079c48e20f7efdcb8bfa26f962"
+  }
+}
