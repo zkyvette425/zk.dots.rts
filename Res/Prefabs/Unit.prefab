@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 2608653213758610455}
   - component: {fileID: 8940912821475984105}
   - component: {fileID: 2964614483605536765}
+  - component: {fileID: 7268103863408710616}
   m_Layer: 0
   m_Name: PreparedSelected
   m_TagString: Untagged
@@ -172,6 +173,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &7268103863408710616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 969594921251950917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc3c6a11f98545568d3c799b47a3c6aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &2789106229157911169
 GameObject:
   m_ObjectHideFlags: 0
@@ -183,6 +197,7 @@ GameObject:
   - component: {fileID: 4791241272697356832}
   - component: {fileID: 6103922670624258456}
   - component: {fileID: 8151030180881464588}
+  - component: {fileID: 4788944031580092264}
   m_Layer: 0
   m_Name: Selected
   m_TagString: Untagged
@@ -258,6 +273,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &4788944031580092264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2789106229157911169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc3c6a11f98545568d3c799b47a3c6aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &7317542009475548140
 GameObject:
   m_ObjectHideFlags: 0
@@ -273,6 +301,7 @@ GameObject:
   - component: {fileID: 3677210950993853158}
   - component: {fileID: 5283652923067360054}
   - component: {fileID: 2620786919504467826}
+  - component: {fileID: 294120767983534498}
   m_Layer: 0
   m_Name: Unit
   m_TagString: Untagged
@@ -403,3 +432,18 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 116
   m_CollisionDetection: 0
+--- !u!114 &294120767983534498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7317542009475548140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0174ac01f2e745d085d754c58284d758, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 2
+  preparedSelectTarget: {fileID: 969594921251950917}
+  selectTarget: {fileID: 2789106229157911169}

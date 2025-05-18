@@ -52,20 +52,20 @@ namespace RTS.Runtime.System
                 var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
                 Plane plane = new Plane(math.up(),float3.zero);
                 float2 position = float2.zero;
-                
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 if (plane.Raycast(ray, out float distance))
                 {
                     var point = ray.GetPoint(distance);
                     position = new float2(point.x, point.z);
                 }
-
                 var query = new EntityQueryBuilder(Allocator.Temp).WithAll<TargetPosition,UnitSelect>().Build(entityManager);
                 var entities = query.ToEntityArray(Allocator.Temp);
+                var positions = GenerateTargetPositions(position,entities.Length);
 
-                foreach (var t in entities)
+                for (var index = 0; index < entities.Length; index++)
                 {
-                    entityManager.SetComponentData(t, new TargetPosition { Position = position });
+                    var t = entities[index];
+                    entityManager.SetComponentData(t, new TargetPosition { Position = positions[index] });
                 }
             }
             
@@ -142,6 +142,45 @@ namespace RTS.Runtime.System
                     entityManager.SetComponentEnabled<UnitSelect>(entity,true);
                 }
             }
+        }
+
+        private NativeArray<float2> GenerateTargetPositions(float2 position,int count)
+        {
+            var result = new NativeArray<float2>(count, Allocator.Temp);
+            if (count == 0)
+            {
+                return result;
+            }
+            result[0] = position;
+            if (count == 1)
+            {
+                return result;
+            }
+
+            const float ringSize = 2.2f;
+            int ring = 0;
+            int index = 1;
+
+            while (index < count)
+            {
+                var ringPositionCount = 3 + ring * 2;
+                for (int i = 0; i < ringPositionCount; i++)
+                {
+                    var angle = i * (math.PI2 / ringPositionCount);
+                    var ringVector = math.rotate(quaternion.RotateY(angle), new float3(ringSize * (ring + 1),0, 0));
+                    var ringPosition = position + ringVector.xz;
+                    result[index] = ringPosition;
+                    index++;
+                    if (index > ringPositionCount)
+                    {
+                        break;
+                    }
+               
+                }
+                ring++;
+               
+            }
+            return result;
         }
     }
 }
