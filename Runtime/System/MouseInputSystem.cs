@@ -144,13 +144,53 @@ namespace RTS.Runtime.System
             }
         }
 
-        private NativeArray<float2> GenerateTargetPositions(float2 position,int count)
+        // private NativeArray<float2> GenerateTargetPositions(float2 position,int count)
+        // {
+        //     var result = new NativeArray<float2>(count, Allocator.Temp);
+        //     if (count == 0)
+        //     {
+        //         return result;
+        //     }
+        //     result[0] = position;
+        //     if (count == 1)
+        //     {
+        //         return result;
+        //     }
+        //
+        //     const float ringSize = 2.2f;
+        //     int ring = 0;
+        //     int index = 1;
+        //
+        //     while (index < count)
+        //     {
+        //         var ringPositionCount = 3 + ring * 2;
+        //         for (int i = 0; i < ringPositionCount; i++)
+        //         {
+        //             var angle = i * (math.PI2 / ringPositionCount);
+        //             var ringVector = math.rotate(quaternion.RotateY(angle), new float3(ringSize * (ring + 1),0, 0));
+        //             var ringPosition = position + ringVector.xz;
+        //             result[index] = ringPosition;
+        //             index++;
+        //             if (index > ringPositionCount)
+        //             {
+        //                 break;
+        //             }
+        //        
+        //         }
+        //         ring++;
+        //        
+        //     }
+        //     return result;
+        // }
+        
+        private NativeArray<float2> GenerateTargetPositions(float2 position, int count)
         {
             var result = new NativeArray<float2>(count, Allocator.Temp);
             if (count == 0)
             {
                 return result;
             }
+
             result[0] = position;
             if (count == 1)
             {
@@ -158,28 +198,40 @@ namespace RTS.Runtime.System
             }
 
             const float ringSize = 2.2f;
+            int currentIndex = 1;
             int ring = 0;
-            int index = 1;
 
-            while (index < count)
+            while (currentIndex < count)
             {
-                var ringPositionCount = 3 + ring * 2;
-                for (int i = 0; i < ringPositionCount; i++)
+                // 计算当前环可以放置的位置数量
+                int positionsInThisRing = Mathf.Max(6, ring * 6); // 每个环至少6个点，随着环数增加点数增加
+        
+                // 计算当前环实际需要放置的位置数量（可能比环的容量小）
+                int positionsToPlace = Mathf.Min(positionsInThisRing, count - currentIndex);
+        
+                for (int i = 0; i < positionsToPlace; i++)
                 {
-                    var angle = i * (math.PI2 / ringPositionCount);
-                    var ringVector = math.rotate(quaternion.RotateY(angle), new float3(ringSize * (ring + 1),0, 0));
-                    var ringPosition = position + ringVector.xz;
-                    result[index] = ringPosition;
-                    index++;
-                    if (index > ringPositionCount)
+                    // 计算角度（均匀分布在环上）
+                    float angle = i * (Mathf.PI * 2 / positionsInThisRing);
+            
+                    // 计算环上的位置
+                    float x = Mathf.Cos(angle) * ringSize * (ring + 1);
+                    float y = Mathf.Sin(angle) * ringSize * (ring + 1);
+            
+                    // 添加到结果数组
+                    result[currentIndex] = position + new float2(x, y);
+                    currentIndex++;
+            
+                    // 如果已经填满所有需要的位置，退出循环
+                    if (currentIndex >= count)
                     {
                         break;
                     }
-               
                 }
+        
                 ring++;
-               
             }
+    
             return result;
         }
     }
